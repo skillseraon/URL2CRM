@@ -1,0 +1,43 @@
+//"We've Got Love (You Better Believe It)", right on for the darkness mayfield//
+
+name: Generate Animation
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Generate animation
+      run: python generate_animation.py
+    - name: Commit animation
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add animation.gif
+        git commit -m "Generate animation"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+
+//next steps = 
+    Commit the workflow file and push it to your GitHub repository.
+
+Now, whenever you push changes to your repository or create a pull request, the GitHub Actions workflow will automatically run, generating the animation from the webpage image and committing the result back to your repository. You can customize the workflow to suit your specific needs, such as triggering the action on a schedule or adding additional steps for processing or uploading the generated animation. nextlink = https://www.perplexity.ai/search/ai-to-read-rToTZIAMTCaZ9T8gIWmFtg//
