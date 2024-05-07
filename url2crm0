@@ -1,0 +1,45 @@
+//This is a simple script that we aim to use in performing a simple fetch content, save img, convert to gif or mp4//
+//The key steps are:
+
+    Fetch the webpage content
+    Parse the HTML to find the image URL
+    Download and save the image
+    Use an image library to convert the image to an animation
+
+This allows you to automate the process of generating GIFs or videos from images on webpages using Python//
+
+//Use the requests library to fetch the webpage content//
+import requests
+
+url = 'https://example.com'
+//change this to an input field box for the url//
+
+response = requests.get(url)
+html_content = response.content
+
+//Parse the HTML content to find the image URL using a library like #BeautifulSoup//
+
+from bs4 import BeautifulSoup
+
+soup = BeautifulSoup(html_content, 'html.parser')
+image_url = soup.find('img')['src']
+
+//Download the image using requests and save it to a file//
+
+image_response = requests.get(image_url)
+with open('image.jpg', 'wb') as file:
+    file.write(image_response.content)
+
+//Use a #library like #imageio to convert the image to a GIF or MP4 animation//
+//ifio=gif, create a GIF animation named animation.gif with each frame displayed for duration= seconds.//
+
+import imageio
+
+images = [imageio.imread('image.jpg')]
+imageio.mimsave('animation.gif', images, duration=0.5)
+
+
+//ifio=mp4, create an MP4 video with frame ratte at 24fps//
+
+imageio.mimsave('animation.mp4', images, fps=24)
+
